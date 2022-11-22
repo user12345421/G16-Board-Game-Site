@@ -1,0 +1,15 @@
+<p>Board game lending site!</p>
+
+<a href="{% url 'boardgame_site:index' %}">Home page</a> -
+<a href="{% url 'boardgame_site:games' %}">Games</a> -
+{% if user.is_authenticated %}
+    Logged in as: {{ user.username }}.
+    <a href="{% url 'users:logout' %}">Log out</a>
+{% else %}
+    <a href="{% url 'users:register' %}">Register</a> -
+    <a href="{% url 'users:login' %}">Log in</a>
+    <p>You are not logged in. Your experience may be limited.</p>
+{% endif %}
+
+{% block content %}{% endblock content %}
+

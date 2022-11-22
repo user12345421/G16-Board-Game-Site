@@ -1,0 +1,2 @@
+Superuser login admin:Qwerty1234
+User login test:lautapeli

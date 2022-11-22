@@ -1,0 +1,24 @@
+{% extends 'boardgame_site/base.html' %}
+{% block content %}
+<p>List of all avaible games</p>
+<ul>
+    {% for game in games %}
+    <li>
+        Game title: <a href="{% url 'boardgame_site:game' game.id %}">{{ game.name }}</a>
+        <p>Owner: {{ game.owner }}</p>
+        <p>Genres: {{ game.genres }}</p>
+        <p>Summary: {{ game.summary }}</p>
+        <p>Date added: {{ game.date_added|date:'M d, Y H:i' }}</p>
+        <p>Is available to lend: {{ game.available_to_lend }}</p>
+
+        <p>
+            <a href="">Lend the game</a> - <a href="{% url 'boardgame_site:edit_game' game.id %}">Edit game</a>
+    </li>
+    {% empty %}
+    <li>There are no games yet.</li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'boardgame_site:new_game' %}">Add a new game</a>
+{% endblock content %}
+

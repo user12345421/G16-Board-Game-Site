@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\boardgame_project",
+    "\\boardgame_site",
+    "\\boardgame_site\\templates",
+    "\\boardgame_site\\templates\\boardgame_site",
+    "\\users",
+    "\\users\\templates",
+    "\\users\\templates\\registration"
+  ],
+  "SelectedNode": "\\boardgame_site\\templates\\boardgame_site\\games.html",
+  "PreviewInSolutionExplorer": false
+}
