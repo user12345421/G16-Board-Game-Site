@@ -1,0 +1,28 @@
+{% extends 'boardgame_site/base.html' %} 
+
+{% block page_header %}
+
+  <div class="jumbotron">
+
+    {% if user.is_authenticated %}
+      <h1 class="display-3">Welcome {{ user }} !</h1>
+      <p class="lead">Add your own games or lend others</p>
+
+      <a href="{% url 'boardgame_site:games'%}"
+      class="btn btn-lg btn-primary"
+      role="button">Browser games &raquo;</a>
+    
+    {% else %}
+    <h1 class="display-3">Welcome!</h1>
+    <p class="lead">Here you can add games and lend them.</p>
+
+    <a
+      href="{% url 'users:register'%}"
+      class="btn btn-lg btn-primary"
+      role="button"
+      >Register &raquo;</a
+    >
+    {% endif %}
+  </div>
+
+{% endblock page_header %}
