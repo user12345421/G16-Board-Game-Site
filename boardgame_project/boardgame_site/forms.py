@@ -11,6 +11,10 @@ class BoardgameForm(forms.ModelForm):
 
 #Form for lending
 class LendingForm(forms.ModelForm):
+
+    #def save(self, *args, **kwargs):
+    #   super().save(*args, **kwargs)  # Call the "real" save() method.
+
     class Meta:
         model = Lending
-        fields = ['lender', "return_date"]
+        exclude = ["lender", "game",]
