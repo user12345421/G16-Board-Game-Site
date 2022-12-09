@@ -17,5 +17,10 @@ urlpatterns = [
     #Page for editing a boardgame
     path("edit_game/<int:game_id>", views.edit_game, name="edit_game"),
     #Page for deleting a boardgame
-    path("delete_game/<int:game_id>", views.delete_game, name="delete_game")
+    path("delete_game/<int:game_id>", views.delete_game, name="delete_game"),
+    #Page for seeing all lendings
+    path('lendings/', views.lendings, name='lendings'),
+    #Page for lending games
+    path("lend_game/<int:game_id>", views.lend_game, name="lend_game"),
+
 ]

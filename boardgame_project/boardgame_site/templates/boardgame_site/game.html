@@ -9,8 +9,10 @@
 <p>Date added: {{ game.date_added|date:'M d, Y H:i' }}</p>
 
 <p>
+    {% if game.owner == request.user %}
     <a href="{% url 'boardgame_site:edit_game' game.id %}">Edit game</a> -
     <a href="{% url 'boardgame_site:delete_game' game.id %}">DELETE game</a>
+    {% endif %}
 </p>
 
 {% endblock content %}

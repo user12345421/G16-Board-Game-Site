@@ -9,10 +9,19 @@
         <p>Genres: {{ game.genres }}</p>
         <p>Summary: {{ game.summary }}</p>
         <p>Date added: {{ game.date_added|date:'M d, Y H:i' }}</p>
+        <p>Last modified: {{ game.date_modified|date:'M d, Y H:i' }}</p>
         <p>Is available to lend: {{ game.available_to_lend }}</p>
 
-        <p>
-            <a href="">Lend the game</a> - <a href="{% url 'boardgame_site:edit_game' game.id %}">Edit game</a>
+        {% if game.available_to_lend %}
+        <a href="{% url 'boardgame_site:lend_game' game.id %}">Lend game</a>
+        {% else %}
+        This game is curretly already lent to someone.
+        {% endif %}
+
+        {% if game.owner == request.user %}
+        <a href="{% url 'boardgame_site:edit_game' game.id %}">Edit game</a>
+        {% endif %}
+
     </li>
     {% empty %}
     <li>There are no games yet.</li>

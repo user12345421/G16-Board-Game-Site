@@ -9,6 +9,6 @@
     "\\users\\templates",
     "\\users\\templates\\registration"
   ],
-  "SelectedNode": "\\boardgame_site\\templates\\boardgame_site\\games.html",
+  "SelectedNode": "\\boardgame_site\\models.py",
   "PreviewInSolutionExplorer": false
 }

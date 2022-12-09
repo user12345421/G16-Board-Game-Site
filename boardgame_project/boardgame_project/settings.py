@@ -35,6 +35,9 @@ INSTALLED_APPS = [
     "boardgame_site",
     "users",
 
+    #Third party apps
+    #TODO: Add django-bootstrap4 here!
+
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -84,6 +87,9 @@ DATABASES = {
     }
 }
 
+
+#Redirect URL
+LOGIN_URL = 'users:login'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

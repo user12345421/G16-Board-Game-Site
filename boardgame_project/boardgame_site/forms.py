@@ -13,5 +13,4 @@ class BoardgameForm(forms.ModelForm):
 class LendingForm(forms.ModelForm):
     class Meta:
         model = Lending
-        fields = ["lent_game", 'lender', "return_date"]
-        labels = '__all__'
+        fields = ['lender', "return_date"]

@@ -73,3 +73,37 @@ def delete_game(request, game_id):
     if request.method != "POST":
         game.delete()
         return redirect("boardgame_site:games")
+
+@login_required
+def lend_game(request, game_id):
+    """Lend a boardgame"""
+    game = Boardgame.objects.get(id=game_id)
+
+    if request.method != "POST":
+        #Runs when no data is submitted. Creates a blank form
+        form = LendingForm
+    else:
+        form = LendingForm(data = request.POST)
+        #If form is valid runs this
+        if form.is_valid():
+            #Save the form
+            form.save()
+            #Return to games page
+            return redirect("boardgame_site:games")
+
+    #Runs if blank or invalid form(when created)
+    #Passing the game and form to the html page
+    context = {"game": game, "form": form}
+    return render(request, "boardgame_site/lend_game.html", context)
+
+#No login needed to see this
+def lendings(request):
+    """"See all current lends"""
+    lends = Lending.objects.order_by("return_date")
+
+    #FIX!!
+    games = lends
+
+    #Passing the lends
+    context = {"lends": lends, "games": games}
+    return render(request, "boardgame_site/lendings.html", context)

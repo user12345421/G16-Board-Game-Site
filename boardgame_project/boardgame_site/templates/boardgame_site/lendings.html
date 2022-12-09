@@ -1,0 +1,18 @@
+{% extends 'boardgame_site/base.html' %}
+{% block content %}
+<p>List of all lends</p>
+<ul>
+    {% for lend in lends %}
+    <li>
+        Game title: {{ lend.boardgame_set.name }}</a>
+        <p>Lender: {{ lend.lender }}</p>
+        <p>Lend start date: {{ lend.lend_start_date }}</p>
+        <p>Return date: {{ lend.return_date }}</p>
+    </li>
+    {% empty %}
+    <li>No one is curretly lending games. So all are available for you :) </li>
+    {% endfor %}
+</ul>
+
+{% endblock content %}
+
