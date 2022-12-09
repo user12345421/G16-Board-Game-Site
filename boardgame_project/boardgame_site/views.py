@@ -13,7 +13,19 @@ def index(request):
 def games(request):
     """"See all games in a list"""
     games = Boardgame.objects.order_by("date_added")
-    context = {"games": games}
+    #Fetching all lends that havent been returned
+    currentLends = Lending.objects.filter(received_game_date__isnull = True)
+    #Checking how many books the user has on loan
+    userLendCount = currentLends.filter(lender = request.user).count()
+    
+    #If user has 3 on loan set the variable to true. Else to false
+    if userLendCount >= 3:
+        hasExceededLendingLimit = True
+    else:
+        hasExceededLendingLimit = False
+
+    #Passing all these to html page
+    context = {"games": games, "lends": currentLends, "limitExceeded": hasExceededLendingLimit}
     return render(request, "boardgame_site/games.html", context)
 
 @login_required
@@ -31,7 +43,9 @@ def new_game(request):
         #Runs when no data is submitted. Creates a blank form
         form = BoardgameForm
     else:
-        form = BoardgameForm(data = request.POST)
+        #Making a boardgame object. And setting the owner to be the user
+        gameObj = Boardgame(owner = request.user)
+        form = BoardgameForm(data = request.POST, instance = gameObj)
         #If form is valid runs this
         if form.is_valid():
             #Save the form
@@ -78,6 +92,9 @@ def delete_game(request, game_id):
 def lend_game(request, game_id):
     """Lend a boardgame"""
     gameObj = Boardgame.objects.get(id=game_id)
+
+    #Checks the amount of lends the user has
+    userLendCount = Lending.objects.filter(lender = request.user, ).count()
 
     if request.method != "POST":
         #Runs when no data is submitted. Creates a blank form

@@ -1,6 +1,9 @@
 {% extends 'boardgame_site/base.html' %}
 {% block content %}
 <p>List of all lends</p>
+
+{% if user.is_authenticated %}
+
 <ul>
     {% for lend in lends %}
     <li>
@@ -13,6 +16,11 @@
     <li>No one is curretly lending games. So all are available for you :) </li>
     {% endfor %}
 </ul>
+
+{% endif %}
+
+
+
 
 {% endblock content %}
 

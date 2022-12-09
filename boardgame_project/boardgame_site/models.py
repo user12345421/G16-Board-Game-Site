@@ -12,10 +12,6 @@ class Boardgame(models.Model):
     genres = models.CharField(max_length=400)
     #A brief summery of the game
     summary = models.CharField(max_length=500)
-
-    #Lending object
-    #lending_obj = models.ManyToManyField(Lending)
-
     #Bool to check if game is avaible for lending
     available_to_lend = models.BooleanField()
     #Owner of the game
@@ -38,6 +34,9 @@ class Lending(models.Model):
     lend_start_date = models.DateTimeField(auto_now_add=True)
     #Return date for the game
     return_date = models.DateTimeField()
+    #When the user actually returned the game. Can be null cause current lends havent been returned
+    received_game_date = models.DateTimeField(null=True)
+    
 
     def __str__(self):
         """Return name and lender name"""

@@ -7,7 +7,7 @@ class BoardgameForm(forms.ModelForm):
 
     class Meta:
         model = Boardgame
-        fields = ['name', "genres", "summary", "available_to_lend", "owner"]
+        fields = ['name', "genres", "summary", "available_to_lend",]
 
 #Form for lending
 class LendingForm(forms.ModelForm):
@@ -17,4 +17,5 @@ class LendingForm(forms.ModelForm):
 
     class Meta:
         model = Lending
-        exclude = ["lender", "game",]
+        
+        fields = ['return_date',]
