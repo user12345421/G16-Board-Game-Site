@@ -1,6 +1,12 @@
 {% extends 'boardgame_site/base.html' %}
+
+{% block page_header %}
+<h1>Games</h1>
+{% endblock page_header %}
+
+
 {% block content %}
-<p>List of all avaible games</p>
+
 <ul>
     {% for game in games %}
     <li>
@@ -44,6 +50,13 @@
     {% endfor %}
 </ul>
 
-<a href="{% url 'boardgame_site:new_game' %}">Add a new game</a>
+<h3><a href="{% url 'boardgame_site:new_game'%}">Add a new game</a></h3>
+
 {% endblock content %}
+
+
+
+
+
+
 
