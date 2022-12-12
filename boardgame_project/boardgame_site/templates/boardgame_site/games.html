@@ -9,14 +9,10 @@
 
 <ul>
     {% for game in games %}
-    <li>
-        Game title: <a href="{% url 'boardgame_site:game' game.id %}">{{ game.name }}</a>
-        <p>Owner: {{ game.owner }}</p>
-        <p>Genres: {{ game.genres }}</p>
-        <p>Summary: {{ game.summary }}</p>
-        <p>Date added: {{ game.date_added|date:'M d, Y H:i' }}</p>
-        <p>Last modified: {{ game.date_modified|date:'M d, Y H:i' }}</p>
-        <!--
+        <li><h3>
+            <a href="{% url 'boardgame_site:game' game.id%}">{{ game }}</a>
+        </h3></li>
+         <!--
         <p>Is available to lend: {{ game.available_to_lend }}</p>
         -->
         {% for lend in lends %}
@@ -43,20 +39,11 @@
         {% if game.owner == request.user %}
         - <a href="{% url 'boardgame_site:edit_game' game.id %}">Edit game</a>
         {% endif %}
-
-    </li>
-    {% empty %}
-    <li>There are no games yet.</li>
+        {% empty %}
+        <li><h3>No Games have been added yet.</h3></li>
     {% endfor %}
 </ul>
 
 <h3><a href="{% url 'boardgame_site:new_game'%}">Add a new game</a></h3>
 
 {% endblock content %}
-
-
-
-
-
-
-
