@@ -36,7 +36,8 @@ INSTALLED_APPS = [
     "users",
 
     #Third party apps
-    #TODO: Add django-bootstrap4 here!
+    "bootstrap4",
+    
 
     "django.contrib.admin",
     "django.contrib.auth",
