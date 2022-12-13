@@ -12,37 +12,38 @@
         <li><h3>
             <a href="{% url 'boardgame_site:game' game.id%}">{{ game }}</a>
         </h3></li>
-         <!--
+         
         <p>Is available to lend: {{ game.available_to_lend }}</p>
-        -->
+        
         {% for lend in lends %}
 
             {% if game == lend.game and user.is_authenticated %}
             The game is currently lent by {{ lend.lender }} and will be available to lend by {{ lend.return_date|date:'M d, Y H:i' }}
-        
-            {% else %}
+            {% endif %}
+        {% endfor %}
+            
 
-                {% if limitExceeded == True %}
+            {% if limitExceeded == True %}
                 You can only lend 3 games at a time. To lend this return some first!
-
-                {% else %}
-                <a href="{% url 'boardgame_site:lend_game' game.id %}">Lend game</a>
-
-                {% endif %}
-
-                
-        
             {% endif %}
 
-        {% endfor %}
-
+        <div class="mb-3">
         {% if game.owner == request.user %}
-        - <a href="{% url 'boardgame_site:edit_game' game.id %}">Edit game</a>
+        <a href="{% url 'boardgame_site:edit_game' game.id %}">Edit game</a> 
         {% endif %}
+        
+        {% if game != lend.game %}
+        
+        -<a href="{% url 'boardgame_site:lend_game' game.id %}"> Lend game</a>
+        {% endif %}
+
+        </div>
+
         {% empty %}
         <li><h3>No Games have been added yet.</h3></li>
     {% endfor %}
 </ul>
+
 
 <h3><a href="{% url 'boardgame_site:new_game'%}">Add a new game</a></h3>
 

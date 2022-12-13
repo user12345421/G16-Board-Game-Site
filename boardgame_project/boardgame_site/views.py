@@ -9,7 +9,7 @@ def index(request):
     """"The home page"""
     return render(request, "boardgame_site/index.html")
 
-#No login needed to see this
+@login_required
 def games(request):
     """"See all games in a list"""
     games = Boardgame.objects.order_by("date_added")
@@ -116,7 +116,7 @@ def lend_game(request, game_id):
     context = {"game": gameObj, "form": form}
     return render(request, "boardgame_site/lend_game.html", context)
 
-#No login needed to see this
+@login_required
 def lendings(request):
     """"See all current lends"""
     lends = Lending.objects.order_by("return_date")
