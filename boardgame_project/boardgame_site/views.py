@@ -26,8 +26,9 @@ def games(request):
 
 
     #Passing all these to html page
-    context = {"games": games, "lends": currentLends, "loanCount": loanCount}
+    context = {"games": games, "lends": currentLends, "loanCount": loanCount,}
     return render(request, "boardgame_site/games.html", context)
+
 
 @login_required
 def game(request, game_id):
@@ -113,7 +114,7 @@ def lend_game(request, game_id):
 
     if currentLends.filter(game=gameObj):
 
-        return redirect("boardgame_site:games")
+        return redirect("boardgame_site:message")
 
 
     if request.method != "POST":
@@ -174,3 +175,6 @@ def return_game(request, lend_id):
         #Save the changes
         lend.save()
         return redirect("boardgame_site:lendings")
+
+def message(request):
+    return render(request, "boardgame_site/message.html")
