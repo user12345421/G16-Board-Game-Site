@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from datetime import datetime
 from .models import Boardgame, Lending
 from .forms import BoardgameForm, LendingForm
 from django.http import Http404
@@ -15,24 +16,30 @@ def games(request):
     games = Boardgame.objects.order_by("date_added")
     #Fetching all lends that havent been returned
     currentLends = Lending.objects.filter(received_game_date__isnull = True)
-    #Checking how many books the user has on loan
-    userLendCount = currentLends.filter(lender = request.user).count()
-    
-    #If user has 3 on loan set the variable to true. Else to false
-    if userLendCount >= 3:
-        hasExceededLendingLimit = True
+
+    #Checking if user is logged in
+    if request.user.is_authenticated:
+        #Fetching and counting all lends by user that havent been returned
+        loanCount = currentLends.filter(lender = request.user).count()
     else:
-        hasExceededLendingLimit = False
+        loanCount = None
+
 
     #Passing all these to html page
-    context = {"games": games, "lends": currentLends, "limitExceeded": hasExceededLendingLimit}
+    context = {"games": games, "lends": currentLends, "loanCount": loanCount}
     return render(request, "boardgame_site/games.html", context)
 
 @login_required
 def game(request, game_id):
     """"Show a single game"""
     game = Boardgame.objects.get(id=game_id)
-    context = {"game": game}
+
+    lends = Lending.objects.filter(game = game_id)
+
+    #Fetching and counting all lends by user that havent been returned
+    loanCount = Lending.objects.filter(received_game_date__isnull = True, lender = request.user).count()
+
+    context = {"game": game, "lends": lends, "loanCount": loanCount}
     return render(request, "boardgame_site/game.html", context)
 
 @login_required
@@ -93,8 +100,21 @@ def lend_game(request, game_id):
     """Lend a boardgame"""
     gameObj = Boardgame.objects.get(id=game_id)
 
-    #Checks the amount of lends the user has
-    userLendCount = Lending.objects.filter(lender = request.user, ).count()
+    #Fetching all lends that havent been returned yet
+    currentLends = Lending.objects.filter(received_game_date__isnull = True)
+
+    #Fetch all unreturned lends that are lent by the user
+    userLends = currentLends.filter(lender = request.user)
+
+    #Checking users lend count
+    userLendCount = userLends.count()
+
+    #Check if the game is already lent and not returned
+
+    if currentLends.filter(game=gameObj):
+
+        return redirect("boardgame_site:games")
+
 
     if request.method != "POST":
         #Runs when no data is submitted. Creates a blank form
@@ -119,8 +139,38 @@ def lend_game(request, game_id):
 #No login needed to see this
 def lendings(request):
     """"See all current lends"""
-    lends = Lending.objects.order_by("return_date")
+
+    #Checking if user is logged in
+    if request.user.is_authenticated:
+        #Fetching all lends by user that havent been returned
+        owned = Lending.objects.filter(lender = request.user, received_game_date__isnull = True)
+    else:
+        owned = None
+    
+
+    #All lends sorted by return_date
+    returnedLends = Lending.objects.filter(received_game_date__isnull = False)
+    lends = Lending.objects.filter(received_game_date__isnull = True).order_by("return_date")
 
     #Passing the lends
-    context = {"lends": lends}
+    context = {"lends": lends, "ownLends": owned, "returnedLends": returnedLends}
     return render(request, "boardgame_site/lendings.html", context)
+
+@login_required
+def return_game(request, lend_id):
+    """Return a lent boardgame"""
+
+    #The lend obj
+    lend = Lending.objects.get(id=lend_id)
+
+    #Checking if the lend is made by the user
+    if lend.lender != request.user:
+        raise Http404
+    #Sets the return date to today. Making the lend completed.
+    if request.method != "POST":
+        
+        lend.received_game_date = datetime.now()
+
+        #Save the changes
+        lend.save()
+        return redirect("boardgame_site:lendings")

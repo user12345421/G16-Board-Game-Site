@@ -1,21 +1,52 @@
 {% extends 'boardgame_site/base.html' %}
+
+
+{% block page_header %}
+<h4>
+    <p>Game title: {{ game }}</p>
+    <p>Summary: {{ game.summary }}</p>
+    <p>Owner: {{ game.owner }}</p>
+    <p>Genres: {{ game.genres }}</p>
+    <p>Date added: {{ game.date_added|date:'M d, Y H:i' }}</p>
+</h4>
+{% endblock page_header %}
+
 {% block content %}
-
-<p>Game title: {{ game }}</p>
-<!--
-<p>Is available to lend: {{ game.available_to_lend }}</p>
--->
-<p>Owner: {{ game.owner }}</p>
-<p>Genres: {{ game.genres }}</p>
-<p>Summary: {{ game.summary }}</p>
-<p>Date added: {{ game.date_added|date:'M d, Y H:i' }}</p>
-
 <p>
     {% if game.owner == request.user %}
     <a href="{% url 'boardgame_site:edit_game' game.id %}">Edit game</a> -
     <a href="{% url 'boardgame_site:delete_game' game.id %}">DELETE game</a>
     {% endif %}
+
+
+    {% if loanCount < 3 %}
+        - <a href="{% url 'boardgame_site:lend_game' game.id %}">Lend game</a>
+    {% else %}
+        - You can only loan 3 games at a time. Go return some to lend more!
+    {% endif %}
+
+
 </p>
 
-{% endblock content %}
+<h4>
+    <p>Lending history:</p>
+</h4>
 
+<ul>
+    {% for lend in lends %}
+    <div class="card mb-3">
+        <h4 class="card-header">
+            Lender: {{ lend.lender|linebreaks }}
+        </h4>
+        <div class="card-body">
+            Lended on: {{ lend.lend_start_date|date:'M d, Y H:i' }}
+
+            Returned: {{ lend.received_game_date|date:'M d, Y H:i' }}
+
+        </div>
+    </div>
+    {% empty %}
+    <p>No one has ever lent this game</p>
+    {% endfor %}
+
+{% endblock content %}

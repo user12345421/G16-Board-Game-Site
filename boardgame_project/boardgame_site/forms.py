@@ -7,7 +7,7 @@ class BoardgameForm(forms.ModelForm):
 
     class Meta:
         model = Boardgame
-        fields = ['name', "genres", "summary", "available_to_lend",]
+        fields = ['name', "genres", "summary",]
 
 #Form for lending
 class LendingForm(forms.ModelForm):

@@ -1,9 +1,25 @@
 {% extends 'boardgame_site/base.html' %}
 {% block content %}
-<p>List of all lends</p>
+
 
 {% if user.is_authenticated %}
 
+<p>Your loans</p>
+<ul>
+    {% for ownLend in ownLends %}
+    <li>
+        Game title: {{ ownLend.game.name }}</a>
+        <p>Lend start date: {{ ownLend.lend_start_date }}</p>
+        <p>Return date: {{ ownLend.return_date }}</p>
+        <a href="{% url 'boardgame_site:return_game' ownLend.id %}">Return game</a>
+    </li>
+    {% empty %}
+    <li>You have no games on loan. Go loan some! </li>
+    {% endfor %}
+</ul>
+
+
+<p>List of all current lends</p>
 <ul>
     {% for lend in lends %}
     <li>
@@ -16,6 +32,22 @@
     <li>No one is curretly lending games. So all are available for you :) </li>
     {% endfor %}
 </ul>
+
+<p>Lending history</p>
+<ul>
+    {% for lend in returnedLends %}
+    <li>
+        Game title: {{ lend.game.name }}</a>
+        <p>Lender: {{ lend.lender }}</p>
+        <p>Lend start date: {{ lend.lend_start_date }}</p>
+        <p>Date returned: {{ lend.received_game_date }}</p>
+    </li>
+    {% endfor %}
+</ul>
+
+{% else %}
+<li>Login in to see the lends </li>
+
 
 {% endif %}
 

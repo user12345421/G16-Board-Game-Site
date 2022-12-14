@@ -22,5 +22,6 @@ urlpatterns = [
     path('lendings/', views.lendings, name='lendings'),
     #Page for lending games
     path("lend_game/<int:game_id>", views.lend_game, name="lend_game"),
-
+    #Page for returning lent games
+    path("return_game/<int:lend_id>", views.return_game, name="return_game"),
 ]

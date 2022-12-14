@@ -1,5 +1,13 @@
 {% extends 'boardgame_site/base.html' %}
-{% block content %}
-<p>Welcome!</p>
-<p>Once logged in you can add games and lend them.</p>
-{% endblock content %}
+{% block page_header %}
+<div class="jumbotron">
+    <h1 class="display-3">Welcome to the boardgame lending site!</h1>
+
+    <p class="lead">
+        Once logged in you can add games and lend them.
+    </p>
+
+    <a class="btn btn-lg btn-primary" href="{% url 'users:register' %}"
+       role="button">Register &raquo;</a>
+</div>
+{% endblock page_header %}

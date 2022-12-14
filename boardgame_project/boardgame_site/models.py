@@ -12,8 +12,10 @@ class Boardgame(models.Model):
     genres = models.CharField(max_length=400)
     #A brief summery of the game
     summary = models.CharField(max_length=500)
-    #Bool to check if game is avaible for lending
-    available_to_lend = models.BooleanField()
+
+    #NOT USED ANYMORE
+    available_to_lend = models.BooleanField(null=True)
+
     #Owner of the game
     owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     #Dates

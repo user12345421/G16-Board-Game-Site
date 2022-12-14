@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     "users",
 
     #Third party apps
-    #TODO: Add django-bootstrap4 here!
+    "bootstrap4",
 
     "django.contrib.admin",
     "django.contrib.auth",
@@ -89,7 +89,7 @@ DATABASES = {
 
 
 #Redirect URL
-LOGIN_URL = 'users:login'
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
